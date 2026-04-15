@@ -21,3 +21,9 @@ SELECT
 FROM product_funnel
 WHERE view_users > 50   -- filter noise (quan trọng)
 ORDER BY conversion_rate DESC;
+
+ORDER BY conversion_rate DESC
+LIMIT 5;
+
+ORDER BY conversion_rate ASC
+LIMIT 5; 
