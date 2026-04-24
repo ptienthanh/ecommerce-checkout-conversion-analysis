@@ -1,218 +1,111 @@
-# 🛒 E-commerce Checkout Conversion Analysis
+# 📊 E-commerce Checkout Conversion Analysis
 
-## 📌 Project Overview
-
-This project analyzes user behavior in an e-commerce platform to identify drop-off points in the purchase journey and propose solutions to improve checkout conversion.
-
-The analysis focuses on the user funnel:
-**View → Add to Cart → Purchase**
+This project analyzes user behavior in a Shopee-style e-commerce platform using event-level data to identify key drop-off points in the purchase funnel and uncover opportunities to improve conversion.
 
 ---
 
-## 🎯 Business Problem
+## 🎯 Objective
 
-A large number of users browse products but do not complete purchases.
-
-This leads to:
-
-* Low checkout conversion rate
-* High cart abandonment
-* Revenue loss
-
-👉 Goal: Identify where users drop off and understand behavioral patterns to improve conversion.
+- Identify where users drop off in the funnel (**View → Cart → Purchase**)  
+- Measure checkout performance and cart abandonment  
+- Generate data-driven insights to improve conversion  
 
 ---
 
-## 📊 Dataset
+## 📦 Dataset
 
-* Source: RetailRocket E-commerce Dataset (Kaggle)
-* File used: `events.csv`
-* Type: Event-based clickstream data
+- **Source:** RetailRocket E-commerce Dataset (Kaggle)  
+- **Type:** Event-level clickstream data  
 
-### Data Structure
-
-| Column          | Description                                |
-| --------------- | ------------------------------------------ |
-| event_timestamp | Time of user action (Unix ms)              |
-| visitor_id      | Unique user ID                             |
-| event_type      | User action (view, addtocart, transaction) |
-| item_id         | Product ID                                 |
-| transaction_id  | Transaction ID (if purchase occurs)        |
+**Events:**
+- `view` – product view  
+- `addtocart` – add to cart  
+- `transaction` – purchase  
 
 ---
 
-## ⚙️ Tools Used
+## 🛠 Tools
 
-* SQL (MySQL Workbench)
-* Tableau (for visualization - optional)
-
----
-
-## 🧩 Data Preparation
-
-### Data Loading
-
-The dataset was imported into a local MySQL database using:
-
-```sql
-LOAD DATA LOCAL INFILE ...
-```
-
-This approach simulates a real-world environment where analysts work with structured databases instead of flat files.
+- MySQL (data processing & analysis)  
+- SQL (funnel & aggregation queries)  
+- Tableau (dashboard visualization)  
 
 ---
 
-## 🔍 Data Understanding
+## 📈 Key Metrics
 
-### Dataset Overview
-
-* Total records: **[replace with your result]**
-* Unique users: **[replace]**
-* Unique products: **[replace]**
-
-### Event Types
-
-The dataset includes three key user actions:
-
-* `view`: user views a product
-* `addtocart`: user adds product to cart
-* `transaction`: user completes purchase
-
-👉 These events form a complete e-commerce funnel.
+- View → Cart Rate  
+- Cart → Purchase Rate  
+- Cart Abandonment Rate  
+- End-to-End Conversion Rate  
 
 ---
 
-### Behavioral Distribution
+## 📊 Dashboard
 
-Most user actions are **views**, while significantly fewer proceed to cart and purchase.
-
-👉 This indicates a natural drop-off in the funnel and highlights potential friction points in the user journey.
+![Dashboard](./dashboard/Dashboard.png)
 
 ---
 
-## 📈 Funnel Analysis
+## 🔍 Key Findings
 
-### SQL Query
+- **Severe drop at View → Cart (2.7%)**  
+  Most users browse but do not add products to cart → weak product engagement  
 
-```sql
-SELECT 
-    COUNT(DISTINCT CASE WHEN event_type = 'view' THEN visitor_id END) AS view_users,
-    COUNT(DISTINCT CASE WHEN event_type = 'addtocart' THEN visitor_id END) AS cart_users,
-    COUNT(DISTINCT CASE WHEN event_type = 'transaction' THEN visitor_id END) AS purchase_users
-FROM events;
-```
+- **Checkout conversion: 31.1%**  
+  Indicates moderate friction in the checkout process  
 
----
+- **High cart abandonment: 68.93%**  
+  Significant loss of high-intent users before purchase  
 
-### Funnel Result
+- **Category performance gap**  
+  Electronics (~40%) significantly outperforms other categories (~17–18%)  
 
-| Stage       | Users |
-| ----------- | ----- |
-| View        | X     |
-| Add to Cart | X     |
-| Purchase    | X     |
+- **Time-based behavior**  
+  Purchases peak during late evening hours  
 
 ---
 
-### Key Insight
+## 🧠 Key Insight
 
-* Significant drop-off occurs between **[view → cart / cart → purchase]**
-* Indicates potential issues in:
+The biggest bottleneck is not only in checkout.
 
-  * Product attractiveness
-  * Pricing
-  * Checkout experience
+👉 The most critical drop happens earlier:  
+**View → Add to Cart**
 
----
-
-## 🛑 Abandoned Cart Analysis
-
-### SQL Query
-
-```sql
-SELECT COUNT(DISTINCT visitor_id)
-FROM events
-WHERE event_type = 'addtocart'
-AND visitor_id NOT IN (
-    SELECT DISTINCT visitor_id
-    FROM events
-    WHERE event_type = 'transaction'
-);
-```
-
----
-
-### Insight
-
-A large number of users add items to cart but do not complete the purchase.
-
-👉 This suggests:
-
-* Checkout friction
-* Lack of trust or urgency
-* Payment or UX issues
-
----
-
-## ⏱️ Time-Based Analysis
-
-### SQL Query
-
-```sql
-SELECT 
-    DATE(FROM_UNIXTIME(event_timestamp / 1000)) AS event_date,
-    COUNT(*) AS total_events
-FROM events
-GROUP BY event_date
-ORDER BY event_date;
-```
-
----
-
-### Insight
-
-User activity varies by time, indicating potential peak hours for engagement and conversion optimization.
+This suggests that improving product engagement is as important as optimizing checkout.
 
 ---
 
 ## 💡 Recommendations
 
-Based on the analysis, the following improvements are suggested:
-
-* Improve product page UX to increase add-to-cart rate
-* Optimize checkout process (reduce friction)
-* Add trust signals (reviews, guarantees)
-* Implement retargeting for abandoned carts
-
----
-
-## 📌 Conclusion
-
-This project demonstrates how event-based user data can be used to:
-
-* Build conversion funnels
-* Identify drop-off points
-* Generate actionable business insights
-
-👉 The approach reflects real-world data analysis workflows used in e-commerce platforms.
+- Improve product pages (images, pricing clarity, reviews)  
+- Simplify checkout flow  
+- Reduce hidden costs (shipping, taxes)  
+- Add retry/payment fallback mechanisms  
+- Optimize campaigns during peak hours  
 
 ---
 
-## 📁 Project Structure
+## 📈 Estimated Impact
 
-```
+- Increase View → Cart: **2.7% → ~4.0%**  
+- Reduce abandonment: **68.9% → ~55–60%**  
+- Improve overall conversion: **~0.8% → ~1.0–1.1%**  
+
+---
+
+## 📂 Project Structure
+
+```text
 ecommerce-checkout-conversion-analysis/
 │
-├── README.md
 ├── sql/
-│   ├── data_setup.sql
-│   ├── data_understanding.sql
+│   ├── data_cleaning.sql
 │   ├── funnel_analysis.sql
-│
-├── images/
-│   ├── funnel_result.png
-│   ├── event_distribution.png
+│   ├── abandoned_cart.sql
+│   ├── category_analysis.sql
+│   └── time_analysis.sql
 │
 └── dashboard/
-    └── tableau_dashboard.png
-```
+    └── Dashboard.png
