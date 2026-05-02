@@ -1,10 +1,10 @@
 # 📊 E-commerce Checkout Conversion Analysis
 
-This project analyzes user behavior in a Shopee-style e-commerce platform using event-level data to identify key drop-off points in the purchase funnel and uncover opportunities to improve conversion.
+This project analyzes user behavior in a multi-category e-commerce platform using event-level data to identify key drop-off points in the purchase funnel and uncover opportunities to improve conversion.
 
 ---
 
-## 🎯 Objective
+## Objective
 
 - Identify where users drop off in the funnel (**View → Cart → Purchase**)  
 - Measure checkout performance and cart abandonment  
@@ -12,19 +12,25 @@ This project analyzes user behavior in a Shopee-style e-commerce platform using 
 
 ---
 
-## 📦 Dataset
+## Dataset
 
-- **Source:** RetailRocket E-commerce Dataset (Kaggle)  
-- **Type:** Event-level clickstream data  
+**Source:** RetailRocket E-commerce Dataset in Kaggle (https://www.kaggle.com/datasets/retailrocket/ecommerce-dataset)
+
+**Description:** A public clickstream dataset containing user events such as product views, add-to-cart actions, and transactions.
+
+**Note:** This dataset does not represent any specific company and is used for portfolio analysis only.
 
 **Events:**
 - `view` – product view  
 - `addtocart` – add to cart  
-- `transaction` – purchase  
+- `transaction` – purchase
+  
+**→ The dataset does not include an explicit checkout event. 
+Therefore, the analysis uses add-to-cart → purchase as a proxy for checkout behavior.**
 
 ---
 
-## 🛠 Tools
+## Tools
 
 - MySQL (data processing & analysis)  
 - SQL (funnel & aggregation queries)  
@@ -66,11 +72,11 @@ This project analyzes user behavior in a Shopee-style e-commerce platform using 
 
 ---
 
-## 🧠 Key Insight
+## Key Insight
 
 The biggest bottleneck is not only in checkout.
 
-👉 The most critical drop happens earlier:  
+→ The most critical drop happens earlier:  
 **View → Add to Cart**
 
 This suggests that improving product engagement is as important as optimizing checkout.
